@@ -2,6 +2,40 @@ const express = require("express");
 const tareas = require("./tareas");
 const router = express.Router();
 
+router.use(express.json());
+
+const validarCampos = (req, res, next) => {
+  if (req.method === "POST" || req.method === "PUT") {
+    const { id, descripcion, estado } = req.body;
+
+    if (Object.keys(req.body).length === 0) {
+      return res
+        .status(400)
+        .send("El cuerpo de la solicitud no puede estar vacío.");
+    }
+
+    if (!id || !descripcion || !estado) {
+      return res
+        .status(400)
+        .send(
+          "Por favor valide que todos los campos (id, descripcion y estado) tengan información "
+        );
+    }
+
+    if (descripcion.length < 3) {
+      return res.status(400).send("La descripción no debe ser tan corta.");
+    }
+
+    if (estado !== true && estado !== false) {
+      return res.status(400).send("El estado debe ser completado o pendiente.");
+    }
+  }
+
+  next();
+};
+
+router.use(validarCampos);
+
 router.post("/agregarTareas", (req, res) => {
   const id = req.body;
   const descripcion = req.body;
