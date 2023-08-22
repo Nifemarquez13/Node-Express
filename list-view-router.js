@@ -39,7 +39,7 @@ router.get("/:status", validarParametros, (req, res) => {
 
 router.get("/:id/", (req, res) => {
   const IdSeleccionado = req.params.id;
-  const taskSelected = tasks.filter(
+  const taskSelected = tareas.filter(
     (item) => item.id === Number(IdSeleccionado)
   );
   if (taskSelected) {
