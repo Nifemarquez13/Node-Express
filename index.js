@@ -7,8 +7,7 @@ const host = "localhost";
 const login = require("./login");
 
 app.use(express.json());
-app.use("/tareas", listView);
-app.use("/tareas", listEdit);
+app.use("/tareas", [listView, listEdit]);
 app.use("/login", login);
 
 app.listen(port, host, () => {
